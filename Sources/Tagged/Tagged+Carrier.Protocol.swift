@@ -1,4 +1,4 @@
-public import Carrier_Primitives
+public import Carrier
 
 extension Tagged: Carrier.`Protocol`
 where Tag: ~Copyable & ~Escapable, Underlying: ~Copyable & ~Escapable {

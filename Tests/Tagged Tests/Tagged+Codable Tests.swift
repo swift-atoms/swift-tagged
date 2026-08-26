@@ -1,6 +1,6 @@
 import Testing
 
-@testable import Tagged_Primitives
+@testable import Tagged
 
 private enum Customer {}
 

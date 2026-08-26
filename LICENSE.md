@@ -193,7 +193,7 @@
 
 ## Attribution: pointfreeco/swift-tagged
 
-`swift-tagged-primitives` is a fork of [`pointfreeco/swift-tagged`](https://github.com/pointfreeco/swift-tagged). The original work is licensed under the MIT License:
+`swift-tagged` is a fork of [`pointfreeco/swift-tagged`](https://github.com/pointfreeco/swift-tagged). The original work is licensed under the MIT License:
 
 ```
 MIT License
