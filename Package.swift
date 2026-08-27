@@ -44,7 +44,10 @@ let package = Package(
         ),
         .testTarget(
             name: "Tagged Tests",
-            dependencies: ["Tagged"]
+            dependencies: [
+                "Tagged",
+                "Tagged Standard Library Integration",
+            ]
         ),
         .testTarget(
             name: "Tagged Standard Library Integration Tests",

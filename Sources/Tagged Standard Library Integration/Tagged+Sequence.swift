@@ -1,3 +1,5 @@
+public import Tagged
+
 extension Tagged: Swift.Sequence
 where Tag: ~Copyable & ~Escapable, Underlying: Swift.Sequence & Escapable {
 

@@ -1,3 +1,5 @@
+public import Tagged
+
 #if SYNCHRONIZATION_AVAILABLE
     public import Synchronization
 
@@ -17,7 +19,7 @@
         public static func decodeAtomicRepresentation(
             _ representation: consuming AtomicRepresentation
         ) -> Self {
-            Self(Underlying.decodeAtomicRepresentation(representation))
+            Self(_unchecked: Underlying.decodeAtomicRepresentation(representation))
         }
     }
 #endif

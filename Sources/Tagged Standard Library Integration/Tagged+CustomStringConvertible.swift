@@ -1,3 +1,5 @@
+public import Tagged
+
 extension Tagged: CustomStringConvertible
 where Tag: ~Copyable & ~Escapable, Underlying: CustomStringConvertible & Escapable {
 
