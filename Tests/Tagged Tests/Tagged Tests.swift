@@ -1,6 +1,4 @@
-import Carrier
 import Tagged_Standard_Library_Integration
-import Tagged_Test_Support
 import Testing
 
 @testable import Tagged
@@ -9,12 +7,8 @@ private enum Tag1 {}
 private enum Tag2 {}
 private enum Tag3 {}
 
-private struct Resource: ~Copyable, Carrier.`Protocol` {
+private struct Resource: ~Copyable {
     var id: Int
-}
-
-extension Resource {
-    typealias Underlying = Self
 }
 
 @Suite
