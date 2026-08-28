@@ -1,5 +1,3 @@
-public import Tagged
-
 extension Tagged: Swift.Collection
 where Tag: ~Copyable & ~Escapable, Underlying: Swift.Collection & Escapable {
 

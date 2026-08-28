@@ -1,5 +1,3 @@
-public import Tagged
-
 extension Tagged: ExpressibleByIntegerLiteral
 where Tag: ~Copyable & ~Escapable, Underlying: ExpressibleByIntegerLiteral {
 

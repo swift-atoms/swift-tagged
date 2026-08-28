@@ -1,5 +1,3 @@
-public import Tagged
-
 #if !hasFeature(Embedded)
     extension Tagged: Codable
     where Tag: ~Copyable & ~Escapable, Underlying: Codable & Escapable {

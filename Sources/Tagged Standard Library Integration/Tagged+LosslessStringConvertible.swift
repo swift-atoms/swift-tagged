@@ -1,5 +1,3 @@
-public import Tagged
-
 extension Tagged: LosslessStringConvertible
 where
     Tag: ~Copyable & ~Escapable,

@@ -1,5 +1,3 @@
-public import Tagged
-
 extension Tagged: Identifiable
 where Tag: ~Copyable & ~Escapable, Underlying: Identifiable & Escapable {
 

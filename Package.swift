@@ -21,32 +21,57 @@ let package = Package(
             targets: ["Tagged Standard Library Integration"]
         ),
         .library(
-            name: "Tagged Apple Foundation Integration",
-            targets: ["Tagged Apple Foundation Integration"]
+            name: "Tagged Test Support",
+            targets: ["Tagged Test Support"]
         ),
     ],
-    dependencies: [],
+    dependencies: [
+        .package(
+            url: "https://github.com/swift-molecules/swift-carrier.git",
+            branch: "main"
+        )
+    ],
     targets: [
         .target(
             name: "Tagged",
-            dependencies: []
+            dependencies: [
+                .product(name: "Carrier", package: "swift-carrier")
+            ]
         ),
         .target(
             name: "Tagged Standard Library Integration",
-            dependencies: ["Tagged"]
+            dependencies: [
+                "Tagged",
+                .product(
+                    name: "Carrier Standard Library Integration",
+                    package: "swift-carrier"
+                ),
+            ]
         ),
         .target(
-            name: "Tagged Apple Foundation Integration",
+            name: "Tagged Test Support",
             dependencies: [
                 "Tagged",
                 "Tagged Standard Library Integration",
-            ]
+                .product(
+                    name: "Carrier Test Support",
+                    package: "swift-carrier"
+                ),
+                .product(name: "Carrier", package: "swift-carrier"),
+            ],
+            path: "Tests/Support"
         ),
         .testTarget(
             name: "Tagged Tests",
             dependencies: [
                 "Tagged",
                 "Tagged Standard Library Integration",
+                "Tagged Test Support",
+                .product(name: "Carrier", package: "swift-carrier"),
+                .product(
+                    name: "Carrier Standard Library Integration",
+                    package: "swift-carrier"
+                ),
             ]
         ),
         .testTarget(
@@ -54,6 +79,7 @@ let package = Package(
             dependencies: [
                 "Tagged",
                 "Tagged Standard Library Integration",
+                "Tagged Test Support",
             ]
         ),
     ],
