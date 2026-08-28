@@ -1,7 +1,7 @@
-import Tagged_Primitives_Standard_Library_Integration
+import Tagged_Standard_Library_Integration
 import Testing
 
-@testable import Tagged_Primitives
+@testable import Tagged
 
 private enum Tag1 {}
 

@@ -1,9 +1,9 @@
-import Carrier_Primitives
-import Tagged_Primitives_Standard_Library_Integration
-import Tagged_Primitives_Test_Support
+import Carrier_Protocol
+import Tagged_Standard_Library_Integration
+import Tagged_Test_Support
 import Testing
 
-@testable import Tagged_Primitives
+@testable import Tagged
 
 private enum Tag1 {}
 private enum Tag2 {}

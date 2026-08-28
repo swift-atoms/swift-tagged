@@ -3,7 +3,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "swift-tagged-primitives",
+    name: "swift-tagged",
     platforms: [
         .macOS(.v27),
         .iOS(.v27),
@@ -13,73 +13,73 @@ let package = Package(
     ],
     products: [
         .library(
-            name: "Tagged Primitives",
-            targets: ["Tagged Primitives"]
+            name: "Tagged",
+            targets: ["Tagged"]
         ),
         .library(
-            name: "Tagged Primitives Standard Library Integration",
-            targets: ["Tagged Primitives Standard Library Integration"]
+            name: "Tagged Standard Library Integration",
+            targets: ["Tagged Standard Library Integration"]
         ),
         .library(
-            name: "Tagged Primitives Test Support",
-            targets: ["Tagged Primitives Test Support"]
+            name: "Tagged Test Support",
+            targets: ["Tagged Test Support"]
         ),
     ],
     dependencies: [
         .package(
-            url: "https://github.com/swift-primitives/swift-carrier-primitives.git",
+            url: "https://github.com/swift-atoms/swift-carrier.git",
             branch: "main"
         )
     ],
     targets: [
         .target(
-            name: "Tagged Primitives",
+            name: "Tagged",
             dependencies: [
-                .product(name: "Carrier Primitives", package: "swift-carrier-primitives")
+                .product(name: "Carrier Protocol", package: "swift-carrier")
             ]
         ),
         .target(
-            name: "Tagged Primitives Standard Library Integration",
+            name: "Tagged Standard Library Integration",
             dependencies: [
-                "Tagged Primitives",
+                .target(name: "Tagged"),
                 .product(
-                    name: "Carrier Primitives Standard Library Integration",
-                    package: "swift-carrier-primitives"
+                    name: "Carrier Standard Library Integration",
+                    package: "swift-carrier"
                 ),
             ]
         ),
         .target(
-            name: "Tagged Primitives Test Support",
+            name: "Tagged Test Support",
             dependencies: [
-                "Tagged Primitives",
-                "Tagged Primitives Standard Library Integration",
+                .target(name: "Tagged"),
+                .target(name: "Tagged Standard Library Integration"),
                 .product(
-                    name: "Carrier Primitives Test Support",
-                    package: "swift-carrier-primitives"
+                    name: "Carrier Test Support",
+                    package: "swift-carrier"
                 ),
-                .product(name: "Carrier Primitives", package: "swift-carrier-primitives"),
+                .product(name: "Carrier Protocol", package: "swift-carrier"),
             ],
-            path: "Tests/Support"
+            path: "Tests/Tagged Test Support"
         ),
         .testTarget(
-            name: "Tagged Primitives Tests",
+            name: "Tagged Tests",
             dependencies: [
-                "Tagged Primitives",
-                "Tagged Primitives Standard Library Integration",
-                "Tagged Primitives Test Support",
-                .product(name: "Carrier Primitives", package: "swift-carrier-primitives"),
+                .target(name: "Tagged"),
+                .target(name: "Tagged Standard Library Integration"),
+                .target(name: "Tagged Test Support"),
+                .product(name: "Carrier Protocol", package: "swift-carrier"),
                 .product(
-                    name: "Carrier Primitives Standard Library Integration",
-                    package: "swift-carrier-primitives"
+                    name: "Carrier Standard Library Integration",
+                    package: "swift-carrier"
                 ),
             ]
         ),
         .testTarget(
-            name: "Tagged Primitives Standard Library Integration Tests",
+            name: "Tagged Standard Library Integration Tests",
             dependencies: [
-                "Tagged Primitives",
-                "Tagged Primitives Standard Library Integration",
-                "Tagged Primitives Test Support",
+                .target(name: "Tagged"),
+                .target(name: "Tagged Standard Library Integration"),
+                .target(name: "Tagged Test Support"),
             ]
         ),
     ],

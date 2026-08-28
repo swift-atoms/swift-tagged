@@ -1,4 +1,4 @@
-public import Carrier_Primitives
+public import Carrier_Protocol
 
 extension Array: @retroactive Carrier.`Protocol` {
 

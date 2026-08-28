@@ -1,4 +1,4 @@
-# Tagged Primitives
+# Tagged
 
 ![Development Status](https://img.shields.io/badge/status-active--development-blue.svg)
 
@@ -14,7 +14,7 @@ Phantom-typed value wrappers for zero-cost type safety — `Tagged<Tag, Underlyi
 - **Operator non-forwarding is a feature** — arithmetic on `Underlying` is never automatically available on `Tagged`, preventing `Index<Graph> + Index<Bit>.Count` from compiling even though both wrap types with a defined `+`. Operations are declared per-domain with matching `Tag` constraints.
 - **Universal `Tag: ~Copyable & ~Escapable`** — every extension lifts the tag's copyability and escapability constraints, so phantom-typed indices into `~Copyable` containers (`Index<Element>` where `Element: ~Copyable`) do not lose their operators.
 - **`~Copyable` and `~Escapable` `Underlying`** — `Tagged` admits move-only and lifetime-bounded wrapped values; the ecosystem's typed pointers and scoped references (`Ownership.Inout`, `Ownership.Borrow`) wrap cleanly. Neither stdlib's `RawRepresentable` nor `pointfreeco/swift-tagged` admits this; both predate Swift's noncopyable-generics features (SE-0427, SE-0446).
-- **`Ownership.Borrow.Protocol` conformance** — `Tagged<Tag, Underlying>` is `Ownership.Borrow.Protocol` when `Underlying` is; `Tagged.Borrowed` resolves to `Underlying.Borrowed`. The conformance is supplied by [`swift-ownership-primitives`](https://github.com/swift-primitives/swift-ownership-primitives) (the package that declares the protocol).
+- **`Ownership.Borrow.Protocol` conformance** — `Tagged<Tag, Underlying>` is `Ownership.Borrow.Protocol` when `Underlying` is; `Tagged.Borrowed` resolves to `Underlying.Borrowed`. The conformance is supplied by [`swift-ownership`](https://github.com/swift-atoms/swift-ownership) (the package that declares the protocol).
 - **Unconditional `Carrier.\`Protocol\`` conformance** (ships in this package) — `Tagged<Tag, Underlying>` is *always* a `Carrier.\`Protocol\`` of its immediate `Underlying`, regardless of what `Underlying` is. `Tagged.Underlying == Underlying` (the immediate generic parameter, not a recursive cascade). The phantom `Tag` becomes Carrier's `Domain` discriminator. External access flows through `tagged.underlying` (the Carrier accessor, returns the immediate wrapped value); construction flows through `Tagged<Tag, U>(value)` (the Carrier init). For nested `Tagged<X, Tagged<Y, U>>`, `.underlying` returns `Tagged<Y, U>` — consumers that need the bottom-most type recurse explicitly.
 
 ---
@@ -24,7 +24,7 @@ Phantom-typed value wrappers for zero-cost type safety — `Tagged<Tag, Underlyi
 ### Domain-identity without a parallel struct
 
 ```swift
-import Tagged_Primitives
+import Tagged
 
 public enum User {}
 public enum Order {}
@@ -42,8 +42,8 @@ The hand-rolled equivalent per domain — one struct, one init, one `underlying`
 ### Phantom-typed indices into `~Copyable` containers
 
 ```swift
-import Tagged_Primitives
-import Ordinal_Primitives
+import Tagged
+import Ordinal
 
 public enum File {}
 extension File {
@@ -62,7 +62,7 @@ let byte: Index<UInt8>           = 3
 ### Functor operations — `map` and `retag`
 
 ```swift
-import Tagged_Primitives
+import Tagged
 
 let id: User.ID = 42
 
@@ -70,7 +70,7 @@ let asString: Tagged<User, String> = id.map { String($0) }   // preserve Tag, tr
 let asOrder:  Order.ID             = id.retag()              // preserve Underlying, change Tag (explicit coercion)
 ```
 
-`retag` is a phantom coercion — with `@inlinable`, the optimizer eliminates the call. It is a meaningful operation for domain-identity wrappers because crossing domains IS the intent. (Contrast: [`Property<Tag, Base>`](https://github.com/swift-primitives/swift-property-primitives) uses the tag as a verb namespace, not a domain identity — retagging makes no sense there.)
+`retag` is a phantom coercion — with `@inlinable`, the optimizer eliminates the call. It is a meaningful operation for domain-identity wrappers because crossing domains IS the intent. (Contrast: [`Property<Tag, Base>`](https://github.com/swift-atoms/swift-property) uses the tag as a verb namespace, not a domain identity — retagging makes no sense there.)
 
 `Tagged.map` uses typed throws (`throws(E) where E: Error`); the error type is part of the signature, not erased to `any Error`:
 
@@ -99,7 +99,7 @@ Consumers who need a `Result`-shaped outcome wrap at the call site: `Result(catc
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/swift-primitives/swift-tagged-primitives.git", branch: "main")
+    .package(url: "https://github.com/swift-atoms/swift-tagged.git", branch: "main")
 ]
 ```
 
@@ -107,9 +107,9 @@ dependencies: [
 .target(
     name: "App",
     dependencies: [
-        .product(name: "Tagged Primitives", package: "swift-tagged-primitives"),
+        .product(name: "Tagged", package: "swift-tagged"),
         // Optional — opt into stdlib protocol conformances:
-        // .product(name: "Tagged Primitives Standard Library Integration", package: "swift-tagged-primitives"),
+        // .product(name: "Tagged Standard Library Integration", package: "swift-tagged"),
     ]
 )
 ```
@@ -120,9 +120,9 @@ Requires Swift 6.3.1 and macOS 26 / iOS 26 / tvOS 26 / watchOS 26 / visionOS 26 
 
 ## Architecture
 
-Three library products: `Tagged Primitives` (the umbrella), `Tagged Primitives Standard Library Integration` (opt-in stdlib conformances), and `Tagged Primitives Test Support` (test-only fixtures, re-exports SLI for ergonomic test code).
+Three library products: `Tagged` (the base implementation), `Tagged Standard Library Integration` (opt-in stdlib conformances), and `Tagged Test Support` (test-only fixtures, re-exports SLI for ergonomic test code).
 
-### Main target (`Tagged Primitives`)
+### Main target (`Tagged`)
 
 | File | Purpose |
 |------|---------|
@@ -130,9 +130,9 @@ Three library products: `Tagged Primitives` (the umbrella), `Tagged Primitives S
 | `Tagged+CustomStringConvertible.swift` | `CustomStringConvertible` forwarded to the underlying value. |
 | `Tagged+Carrier.Protocol.swift` | Unconditional `Carrier.\`Protocol\`` conformance — `Tagged.Underlying == Underlying` (immediate, no cascade). Tagged is always a Carrier of its immediate wrapped type, regardless of what `Underlying` is. The phantom `Tag` becomes the `Domain` discriminator. Provides the public `underlying` accessor and `init(_:)` for external consumers. |
 
-### Standard Library Integration target (`Tagged Primitives Standard Library Integration`)
+### Standard Library Integration target (`Tagged Standard Library Integration`)
 
-Opt-in via `import Tagged_Primitives_Standard_Library_Integration` (which re-exports `Tagged_Primitives` so consumers don't double-import).
+Opt-in via `import Tagged_Standard_Library_Integration` (which re-exports `Tagged` so consumers don't double-import).
 
 | File | Conformance |
 |------|-------------|
@@ -148,11 +148,11 @@ Some SLI conformances are deliberately absent where they would imply Foundation 
 
 ### Dependencies
 
-The single direct dependency, `swift-carrier-primitives`, provides the `Carrier.\`Protocol\`` capability protocol that `Tagged: Carrier.\`Protocol\`` conforms to (unconditionally — Tagged is a Carrier of its immediate Underlying for any Underlying). Other ecosystem-specific conformances on `Tagged` (`Ordinal.Protocol`, `Ownership.Borrow.Protocol`, etc.) live in the respective protocol / capability packages that import `swift-tagged-primitives`.
+The single direct dependency, `swift-carrier`, provides the `Carrier.\`Protocol\`` capability protocol that `Tagged: Carrier.\`Protocol\`` conforms to (unconditionally — Tagged is a Carrier of its immediate Underlying for any Underlying). Other ecosystem-specific conformances on `Tagged` (`Ordinal.Protocol`, `Ownership.Borrow.Protocol`, etc.) live in the respective protocol / capability packages that import `swift-tagged`.
 
 ### Stability
 
-`swift-tagged-primitives` follows SemVer pre-release semantics in 0.x.
+`swift-tagged` follows SemVer pre-release semantics in 0.x.
 
 | Surface | 0.1.x expectation |
 |---|---|
@@ -178,16 +178,16 @@ The single direct dependency, `swift-carrier-primitives`, provides the `Carrier.
 
 **Used By**:
 
-- [swift-ordinal-primitives](https://github.com/swift-primitives/swift-ordinal-primitives) — `Ordinal` + `Tagged<T, Ordinal>` give typed positions (`Index<Element>`, `Memory.Address`, `Bit.Index`). Also extends `Tagged` with `Ordinal.Protocol` conformance when `Underlying == Ordinal`.
-- [swift-cardinal-primitives](https://github.com/swift-primitives/swift-cardinal-primitives) — `Cardinal` + `Tagged<T, Cardinal>` give typed quantities (`Index<T>.Count`, `Memory.Address.Count`).
-- [swift-affine-primitives](https://github.com/swift-primitives/swift-affine-primitives) — `Affine.Discrete.Vector` + `Tagged<T, Affine.Discrete.Vector>` give typed displacements (`Index<T>.Offset`).
-- [swift-ownership-primitives](https://github.com/swift-primitives/swift-ownership-primitives) — ships the `Tagged: Ownership.Borrow.Protocol` conformance in its `Ownership Borrow Primitives` target, so `Tagged<Tag, X>.Borrowed` resolves to `X.Borrowed` whenever `X` is borrow-capable.
-- [swift-property-primitives](https://github.com/swift-primitives/swift-property-primitives) — `Property.View` stores `Tagged<Tag, Ownership.Inout<Base>>` as the canonical fluent-accessor shape.
-- [swift-hash-primitives](https://github.com/swift-primitives/swift-hash-primitives), [swift-binary-primitives](https://github.com/swift-primitives/swift-binary-primitives), and every other primitives package that reaches for phantom-typed discrimination.
+- [swift-ordinal](https://github.com/swift-atoms/swift-ordinal) — `Ordinal` + `Tagged<T, Ordinal>` give typed positions (`Index<Element>`, `Memory.Address`, `Bit.Index`). Also extends `Tagged` with `Ordinal.Protocol` conformance when `Underlying == Ordinal`.
+- [swift-cardinal](https://github.com/swift-atoms/swift-cardinal) — `Cardinal` + `Tagged<T, Cardinal>` give typed quantities (`Index<T>.Count`, `Memory.Address.Count`).
+- [swift-affine](https://github.com/swift-atoms/swift-affine) — `Affine.Discrete.Vector` + `Tagged<T, Affine.Discrete.Vector>` give typed displacements (`Index<T>.Offset`).
+- [swift-ownership](https://github.com/swift-atoms/swift-ownership) — ships the `Tagged: Ownership.Borrow.Protocol` conformance in its `Ownership Borrow` target, so `Tagged<Tag, X>.Borrowed` resolves to `X.Borrowed` whenever `X` is borrow-capable.
+- [swift-property](https://github.com/swift-atoms/swift-property) — `Property.View` stores `Tagged<Tag, Ownership.Inout<Base>>` as the canonical fluent-accessor shape.
+- [swift-hash](https://github.com/swift-atoms/swift-hash), [swift-binary](https://github.com/swift-atoms/swift-binary), and every other atom package that reaches for phantom-typed discrimination.
 
 **Dependencies**:
 
-- `swift-carrier-primitives` — the `Carrier` capability protocol that `Tagged: Carrier.\`Protocol\`` unconditionally conforms to (declared in `Package.swift`).
+- `swift-carrier` — the `Carrier` capability protocol that `Tagged: Carrier.\`Protocol\`` unconditionally conforms to (declared in `Package.swift`).
 
 ---
 
