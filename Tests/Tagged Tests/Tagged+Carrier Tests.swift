@@ -1,4 +1,4 @@
-import Carrier_Protocol
+import Carrier
 import Carrier_Standard_Library_Integration
 import Tagged_Standard_Library_Integration
 import Testing

@@ -12,18 +12,9 @@ let package = Package(
         .visionOS(.v27),
     ],
     products: [
-        .library(
-            name: "Tagged",
-            targets: ["Tagged"]
-        ),
-        .library(
-            name: "Tagged Standard Library Integration",
-            targets: ["Tagged Standard Library Integration"]
-        ),
-        .library(
-            name: "Tagged Test Support",
-            targets: ["Tagged Test Support"]
-        ),
+        .library(name: "Tagged", targets: ["Tagged"]),
+        .library(name: "Tagged Standard Library Integration", targets: ["Tagged Standard Library Integration"]),
+        .library(name: "Tagged Test Support", targets: ["Tagged Test Support"]),
     ],
     dependencies: [
         .package(
@@ -35,17 +26,14 @@ let package = Package(
         .target(
             name: "Tagged",
             dependencies: [
-                .product(name: "Carrier Protocol", package: "swift-carrier")
+                .product(name: "Carrier", package: "swift-carrier"),
             ]
         ),
         .target(
             name: "Tagged Standard Library Integration",
             dependencies: [
                 .target(name: "Tagged"),
-                .product(
-                    name: "Carrier Standard Library Integration",
-                    package: "swift-carrier"
-                ),
+                .product(name: "Carrier Standard Library Integration", package: "swift-carrier"),
             ]
         ),
         .target(
@@ -53,13 +41,10 @@ let package = Package(
             dependencies: [
                 .target(name: "Tagged"),
                 .target(name: "Tagged Standard Library Integration"),
-                .product(
-                    name: "Carrier Test Support",
-                    package: "swift-carrier"
-                ),
-                .product(name: "Carrier Protocol", package: "swift-carrier"),
+                .product(name: "Carrier Test Support", package: "swift-carrier"),
+                .product(name: "Carrier", package: "swift-carrier"),
             ],
-            path: "Tests/Tagged Test Support"
+            path: "Tests/Support"
         ),
         .testTarget(
             name: "Tagged Tests",
@@ -67,11 +52,8 @@ let package = Package(
                 .target(name: "Tagged"),
                 .target(name: "Tagged Standard Library Integration"),
                 .target(name: "Tagged Test Support"),
-                .product(name: "Carrier Protocol", package: "swift-carrier"),
-                .product(
-                    name: "Carrier Standard Library Integration",
-                    package: "swift-carrier"
-                ),
+                .product(name: "Carrier", package: "swift-carrier"),
+                .product(name: "Carrier Standard Library Integration", package: "swift-carrier"),
             ]
         ),
         .testTarget(
