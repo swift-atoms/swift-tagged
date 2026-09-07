@@ -14,6 +14,7 @@ let package = Package(
     products: [
         .library(name: "Tagged", targets: ["Tagged"]),
         .library(name: "Tagged Standard Library Integration", targets: ["Tagged Standard Library Integration"]),
+        .library(name: "Tagged Foundation Library Integration", targets: ["Tagged Foundation Library Integration"]),
         .library(name: "Tagged Test Support", targets: ["Tagged Test Support"]),
     ],
     dependencies: [
@@ -27,14 +28,24 @@ let package = Package(
             name: "Tagged",
             dependencies: [
                 .product(name: "Carrier", package: "swift-carrier"),
-            ]
+            ],
+            path: "Sources/Tagged"
         ),
         .target(
             name: "Tagged Standard Library Integration",
             dependencies: [
                 .target(name: "Tagged"),
                 .product(name: "Carrier Standard Library Integration", package: "swift-carrier"),
-            ]
+            ],
+            path: "Sources/Tagged Standard Library Integration"
+        ),
+        .target(
+            name: "Tagged Foundation Library Integration",
+            dependencies: [
+                .target(name: "Tagged"),
+                .target(name: "Tagged Standard Library Integration"),
+            ],
+            path: "Sources/Tagged Foundation Library Integration"
         ),
         .target(
             name: "Tagged Test Support",
@@ -54,22 +65,16 @@ let package = Package(
                 .target(name: "Tagged Test Support"),
                 .product(name: "Carrier", package: "swift-carrier"),
                 .product(name: "Carrier Standard Library Integration", package: "swift-carrier"),
-            ]
-        ),
-        .testTarget(
-            name: "Tagged Standard Library Integration Tests",
-            dependencies: [
-                .target(name: "Tagged"),
-                .target(name: "Tagged Standard Library Integration"),
-                .target(name: "Tagged Test Support"),
-            ]
+                .target(name: "Tagged Foundation Library Integration"),
+            ],
+            path: "Tests/Tagged Tests"
         ),
     ],
     swiftLanguageModes: [.v6]
 )
 
-for target in package.targets where ![.system, .binary, .plugin, .macro].contains(target.type) {
-    let ecosystem: [SwiftSetting] = [
+for target in package.targets {
+    target.swiftSettings = [
         .strictMemorySafety(),
         .enableUpcomingFeature("ExistentialAny"),
         .enableUpcomingFeature("InternalImportsByDefault"),
@@ -77,14 +82,6 @@ for target in package.targets where ![.system, .binary, .plugin, .macro].contain
         .enableUpcomingFeature("NonisolatedNonsendingByDefault"),
         .enableExperimentalFeature("Lifetimes"),
         .enableUpcomingFeature("InferIsolatedConformances"),
+        .define("SYNCHRONIZATION_AVAILABLE", .when(platforms: [.macOS, .iOS, .tvOS, .watchOS, .visionOS, .linux, .windows])),
     ]
-
-    let package: [SwiftSetting] = [
-        .define(
-            "SYNCHRONIZATION_AVAILABLE",
-            .when(platforms: [.macOS, .iOS, .tvOS, .watchOS, .visionOS, .linux, .windows])
-        )
-    ]
-
-    target.swiftSettings = (target.swiftSettings ?? []) + ecosystem + package
 }
