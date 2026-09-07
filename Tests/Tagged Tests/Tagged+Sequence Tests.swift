@@ -7,14 +7,14 @@ import Testing
 private enum Tag1 {}
 
 @Suite
-struct `Tagged + Sequence Tests` {
-    @Suite struct Unit {}
-    @Suite struct `Edge Case` {}
-    @Suite struct Integration {}
-    @Suite(.serialized) struct Performance {}
+struct `Tagged sequences preserve the underlying iteration behavior` {
+    @Suite struct `Tagged sequences forward iterator construction and conformance` {}
+    @Suite struct `Tagged iteration preserves empty and populated sequences` {}
+    @Suite struct `Generic sequence algorithms accept tagged sequences` {}
+    @Suite(.serialized) struct `Tagged sequence repetitions preserve the underlying traversal` {}
 }
 
-extension `Tagged + Sequence Tests`.Unit {
+extension `Tagged sequences preserve the underlying iteration behavior`.`Tagged sequences forward iterator construction and conformance` {
 
     @Test
     func `makeIterator forwards to Underlying`() {
@@ -35,7 +35,7 @@ extension `Tagged + Sequence Tests`.Unit {
     }
 }
 
-extension `Tagged + Sequence Tests`.`Edge Case` {
+extension `Tagged sequences preserve the underlying iteration behavior`.`Tagged iteration preserves empty and populated sequences` {
 
     @Test
     func `empty sequence iterates zero times`() {
@@ -56,7 +56,7 @@ extension `Tagged + Sequence Tests`.`Edge Case` {
     }
 }
 
-extension `Tagged + Sequence Tests`.Integration {
+extension `Tagged sequences preserve the underlying iteration behavior`.`Generic sequence algorithms accept tagged sequences` {
 
     @Test
     func `generic Sequence algorithm accepts Tagged`() {
@@ -71,10 +71,10 @@ extension `Tagged + Sequence Tests`.Integration {
     }
 }
 
-extension `Tagged + Sequence Tests`.Performance {
+extension `Tagged sequences preserve the underlying iteration behavior`.`Tagged sequence repetitions preserve the underlying traversal` {
 
     @Test
-    func `iteration batched`() {
+    func `Repeated tagged iteration preserves the underlying elements`() {
         let elements = Array(0..<1_000)
         let tagged: Tagged<Tag1, [Int]> = Tagged<Tag1, [Int]>(_unchecked: elements)
         var sum = 0

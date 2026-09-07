@@ -10,17 +10,17 @@ private struct Account: Codable, Equatable {
 }
 
 @Suite
-struct `Tagged + Codable Tests` {
-    @Suite struct Unit {}
-    @Suite struct `Edge Case` {}
-    @Suite struct Integration {}
-    @Suite(.serialized) struct Performance {}
+struct `Tagged coding preserves the underlying wire representation` {
+    @Suite struct `Tagged coding round trips bare underlying values` {}
+    @Suite struct `Tagged coding preserves empty escaped and scalar values` {}
+    @Suite struct `Structured coding preserves tagged fields as underlying values` {}
+    @Suite(.serialized) struct `Repeated tagged coding round trips preserve values` {}
 }
 
-extension `Tagged + Codable Tests`.Unit {
+extension `Tagged coding preserves the underlying wire representation`.`Tagged coding round trips bare underlying values` {
 
     @Test
-    func `encodes as the bare underlying value, not a keyed object`() throws {
+    func `Tagged encoding preserves the bare underlying representation`() throws {
         let tagged = Tagged<Customer, String>(_unchecked: "cus_123")
         let node = try encodeToNode(tagged)
 
@@ -32,20 +32,20 @@ extension `Tagged + Codable Tests`.Unit {
     }
 
     @Test
-    func `decodes from a bare underlying value`() throws {
+    func `Tagged decoding constructs a value from the bare underlying representation`() throws {
         let decoded = try decodeFromNode(Tagged<Customer, String>.self, .string("cus_123"))
         #expect(decoded.underlying == "cus_123")
     }
 
     @Test
-    func `round-trips through encode then decode`() throws {
+    func `Tagged values round trip through encoding and decoding`() throws {
         let original = Tagged<Customer, String>(_unchecked: "cus_123")
         let restored = try decodeFromNode(Tagged<Customer, String>.self, try encodeToNode(original))
         #expect(restored == original)
     }
 }
 
-extension `Tagged + Codable Tests`.`Edge Case` {
+extension `Tagged coding preserves the underlying wire representation`.`Tagged coding preserves empty escaped and scalar values` {
 
     @Test
     func `empty-string underlying still encodes as a bare value`() throws {
@@ -81,7 +81,7 @@ extension `Tagged + Codable Tests`.`Edge Case` {
     }
 }
 
-extension `Tagged + Codable Tests`.Integration {
+extension `Tagged coding preserves the underlying wire representation`.`Structured coding preserves tagged fields as underlying values` {
 
     @Test
     func `nested Tagged field in a struct encodes as a bare value`() throws {
@@ -103,7 +103,7 @@ extension `Tagged + Codable Tests`.Integration {
     }
 }
 
-extension `Tagged + Codable Tests`.Performance {
+extension `Tagged coding preserves the underlying wire representation`.`Repeated tagged coding round trips preserve values` {
 
     @Test
     func `encode-decode round-trip holds across batched values`() throws {

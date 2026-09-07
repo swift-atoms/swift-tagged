@@ -6,14 +6,14 @@ import Testing
 private enum Tag1 {}
 
 @Suite
-struct `Tagged + Collection Tests` {
-    @Suite struct Unit {}
-    @Suite struct `Edge Case` {}
-    @Suite struct Integration {}
-    @Suite(.serialized) struct Performance {}
+struct `Tagged collections forward their underlying collection behavior` {
+    @Suite struct `Tagged collections preserve underlying indices and elements` {}
+    @Suite struct `Tagged collections preserve empty and single element shapes` {}
+    @Suite struct `Collection algorithms operate on tagged values` {}
+    @Suite(.serialized) struct `Repeated tagged subscripting preserves the underlying elements` {}
 }
 
-extension `Tagged + Collection Tests`.Unit {
+extension `Tagged collections forward their underlying collection behavior`.`Tagged collections preserve underlying indices and elements` {
 
     @Test
     func `startIndex and endIndex forward to Underlying`() {
@@ -46,7 +46,7 @@ extension `Tagged + Collection Tests`.Unit {
     }
 }
 
-extension `Tagged + Collection Tests`.`Edge Case` {
+extension `Tagged collections forward their underlying collection behavior`.`Tagged collections preserve empty and single element shapes` {
 
     @Test
     func `empty collection is empty`() {
@@ -56,14 +56,14 @@ extension `Tagged + Collection Tests`.`Edge Case` {
     }
 
     @Test
-    func `single element collection`() {
+    func `Tagged collections preserve a single element`() {
         let tagged: Tagged<Tag1, [Int]> = [42]
         #expect(tagged.count == 1)
         #expect(tagged.first == 42)
     }
 }
 
-extension `Tagged + Collection Tests`.Integration {
+extension `Tagged collections forward their underlying collection behavior`.`Collection algorithms operate on tagged values` {
 
     @Test
     func `Collection algorithms work via opt-in conformance`() {
@@ -76,10 +76,10 @@ extension `Tagged + Collection Tests`.Integration {
     }
 }
 
-extension `Tagged + Collection Tests`.Performance {
+extension `Tagged collections forward their underlying collection behavior`.`Repeated tagged subscripting preserves the underlying elements` {
 
     @Test
-    func `subscript access batched`() {
+    func `Repeated tagged subscript access preserves every element`() {
         let elements = Array(0..<1_000)
         let tagged: Tagged<Tag1, [Int]> = Tagged<Tag1, [Int]>(_unchecked: elements)
         var sum = 0

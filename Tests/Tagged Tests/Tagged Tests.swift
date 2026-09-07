@@ -18,14 +18,14 @@ extension Resource {
 }
 
 @Suite
-struct `Tagged Tests` {
-    @Suite struct Unit {}
-    @Suite struct `Edge Case` {}
-    @Suite struct Integration {}
-    @Suite(.serialized) struct Performance {}
+struct `Tagged values preserve their domains through construction and transformation` {
+    @Suite struct `Tagged operations preserve underlying values layout and comparisons` {}
+    @Suite struct `Tagged mappings and ordering obey identity composition and boundary laws` {}
+    @Suite struct `Tagged transformations preserve capabilities and compose consistently` {}
+    @Suite(.serialized) struct `Repeated retagging preserves the original value` {}
 }
 
-extension `Tagged Tests`.Unit {
+extension `Tagged values preserve their domains through construction and transformation`.`Tagged operations preserve underlying values layout and comparisons` {
 
     @Test
     func `init stores underlying value`() {
@@ -34,25 +34,25 @@ extension `Tagged Tests`.Unit {
     }
 
     @Test
-    func `integer literal construction`() {
+    func `Integer literals construct tagged integer values`() {
         let tagged: Tagged<Tag1, Int> = 99
         #expect(tagged.underlying == 99)
     }
 
     @Test
-    func `string literal construction`() {
+    func `String literals construct tagged string values`() {
         let tagged: Tagged<Tag1, String> = "hello"
         #expect(tagged.underlying == "hello")
     }
 
     @Test
-    func `boolean literal construction`() {
+    func `Boolean literals construct tagged Boolean values`() {
         let tagged: Tagged<Tag1, Bool> = true
         #expect(tagged.underlying == true)
     }
 
     @Test
-    func `float literal construction`() {
+    func `Floating point literals construct tagged floating point values`() {
         let tagged: Tagged<Tag1, Double> = 3.14
         #expect(tagged.underlying == 3.14)
     }
@@ -217,7 +217,7 @@ extension `Tagged Tests`.Unit {
 
 }
 
-extension `Tagged Tests`.`Edge Case` {
+extension `Tagged values preserve their domains through construction and transformation`.`Tagged mappings and ordering obey identity composition and boundary laws` {
 
     @Test
     func `less than is irreflexive`() {
@@ -313,27 +313,27 @@ extension `Tagged Tests`.`Edge Case` {
     }
 
     @Test
-    func `zero underlying value`() {
+    func `Tagged values preserve a zero underlying value`() {
         let tagged: Tagged<Tag1, Int> = 0
         #expect(tagged.underlying == 0)
         #expect(tagged == 0)
     }
 
     @Test
-    func `negative underlying value`() {
+    func `Tagged values preserve a negative underlying value`() {
         let tagged: Tagged<Tag1, Int> = -42
         #expect(tagged.underlying == -42)
     }
 
     @Test
-    func `empty string underlying value`() {
+    func `Tagged values preserve an empty underlying string`() {
         let tagged: Tagged<Tag1, String> = ""
         #expect(tagged.underlying.isEmpty)
         #expect(tagged.description.isEmpty)
     }
 }
 
-extension `Tagged Tests`.Integration {
+extension `Tagged values preserve their domains through construction and transformation`.`Tagged transformations preserve capabilities and compose consistently` {
 
     @Test
     func `instance map produces same result as static map`() {
@@ -354,14 +354,14 @@ extension `Tagged Tests`.Integration {
     }
 
     @Test
-    func `map then retag composition`() {
+    func `Mapping before retagging preserves the transformed value`() {
         let tagged: Tagged<Tag1, Int> = 5
         let result: Tagged<Tag2, String> = tagged.map { String($0) }.retag()
         #expect(result.underlying == "5")
     }
 
     @Test
-    func `retag then map composition`() {
+    func `Retagging before mapping preserves the transformed value`() {
         let tagged: Tagged<Tag1, Int> = 5
         let result: Tagged<Tag2, String> = tagged.retag(Tag2.self).map { String($0) }
         #expect(result.underlying == "5")
@@ -385,14 +385,14 @@ extension `Tagged Tests`.Integration {
     }
 
     @Test
-    func `comparable ordering across multiple values`() {
+    func `Sorting tagged values follows the underlying order`() {
         let values: [Tagged<Tag1, Int>] = [3, 1, 4, 1, 5, 9, 2, 6]
         let sorted = values.sorted()
         #expect(sorted == [1, 1, 2, 3, 4, 5, 6, 9])
     }
 
     @Test
-    func `hashable in set`() {
+    func `Sets deduplicate tagged values with equal underlying values`() {
         let a: Tagged<Tag1, Int> = 1
         let b: Tagged<Tag1, Int> = 2
         let c: Tagged<Tag1, Int> = 1
@@ -401,27 +401,27 @@ extension `Tagged Tests`.Integration {
     }
 
     @Test
-    func `init and underlying access with noncopyable underlying value`() {
+    func `Tagged construction preserves access to a noncopyable underlying value`() {
         let tagged = Tagged<Tag1, Resource>(_unchecked: Resource(id: 99))
         #expect(tagged.underlying.id == 99)
     }
 
     @Test
-    func `map with noncopyable underlying value`() {
+    func `Tagged mapping consumes a noncopyable underlying value`() {
         let tagged = Tagged<Tag1, Resource>(_unchecked: Resource(id: 7))
         let mapped: Tagged<Tag1, Int> = tagged.map { $0.id }
         #expect(mapped.underlying == 7)
     }
 
     @Test
-    func `retag with noncopyable underlying value`() {
+    func `Retagging preserves a noncopyable underlying value`() {
         let tagged = Tagged<Tag1, Resource>(_unchecked: Resource(id: 42))
         let retagged: Tagged<Tag2, Resource> = tagged.retag()
         #expect(retagged.underlying.id == 42)
     }
 
     @Test
-    func `modify with noncopyable underlying value`() {
+    func `Tagged modification updates a noncopyable underlying value`() {
         var tagged = Tagged<Tag1, Resource>(_unchecked: Resource(id: 1))
         tagged.modify { $0.id = 99 }
         #expect(tagged.underlying.id == 99)
@@ -440,7 +440,7 @@ extension `Tagged Tests`.Integration {
 
     #if !os(Windows)
         @Test
-        func `consume-extract noncopyable underlying out of consumed Tagged`() {
+        func `Consuming a tagged value permits extraction of its noncopyable underlying value`() {
 
             func extract(_ t: consuming Tagged<Tag1, Resource>) -> Resource {
                 t.underlying
@@ -496,7 +496,7 @@ extension `Tagged Tests`.Integration {
 
 }
 
-extension `Tagged Tests`.Performance {
+extension `Tagged values preserve their domains through construction and transformation`.`Repeated retagging preserves the original value` {
 
     @Test
     func `retag round-trip identity holds across batched operations`() {

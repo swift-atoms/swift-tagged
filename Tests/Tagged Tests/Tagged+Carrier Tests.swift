@@ -18,14 +18,14 @@ private func describeAnyCarrier<C: Carrier.`Protocol`>(_ c: C) -> String {
 }
 
 @Suite
-struct `Tagged + Carrier Tests` {
-    @Suite struct Unit {}
-    @Suite struct `Edge Case` {}
-    @Suite struct Integration {}
-    @Suite(.serialized) struct Performance {}
+struct `Tagged carriers expose their immediate underlying type and phantom domain` {
+    @Suite struct `Tagged carrier associated types preserve the immediate wrapping layer` {}
+    @Suite struct `Nested tagged carriers retain each wrapping layer` {}
+    @Suite struct `Generic carrier algorithms distinguish tagged wrapping layers` {}
+    @Suite(.serialized) struct `Repeated carrier dispatch preserves each tagged value` {}
 }
 
-extension `Tagged + Carrier Tests`.Unit {
+extension `Tagged carriers expose their immediate underlying type and phantom domain`.`Tagged carrier associated types preserve the immediate wrapping layer` {
 
     @Test
     func `Domain associatedtype equals the phantom Tag`() {
@@ -56,7 +56,7 @@ extension `Tagged + Carrier Tests`.Unit {
     }
 }
 
-extension `Tagged + Carrier Tests`.`Edge Case` {
+extension `Tagged carriers expose their immediate underlying type and phantom domain`.`Nested tagged carriers retain each wrapping layer` {
 
     @Test
     func `triple-nested Tagged reaches innermost via explicit recursion`() {
@@ -76,7 +76,7 @@ extension `Tagged + Carrier Tests`.`Edge Case` {
     }
 }
 
-extension `Tagged + Carrier Tests`.Integration {
+extension `Tagged carriers expose their immediate underlying type and phantom domain`.`Generic carrier algorithms distinguish tagged wrapping layers` {
 
     @Test
     func `single-level Tagged conforms to Carrier with Underlying == Int`() {
@@ -111,7 +111,7 @@ extension `Tagged + Carrier Tests`.Integration {
     }
 }
 
-extension `Tagged + Carrier Tests`.Performance {
+extension `Tagged carriers expose their immediate underlying type and phantom domain`.`Repeated carrier dispatch preserves each tagged value` {
 
     @Test
     func `Form-D dispatch holds across batched carriers`() {
