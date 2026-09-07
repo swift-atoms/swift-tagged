@@ -13,8 +13,8 @@ let package = Package(
     ],
     products: [
         .library(name: "Tagged", targets: ["Tagged"]),
-        .library(name: "Tagged Standard Library Integration", targets: ["Tagged Standard Library Integration"]),
-        .library(name: "Tagged Foundation Library Integration", targets: ["Tagged Foundation Library Integration"]),
+
+        .library(name: "Tagged Foundation Integration", targets: ["Tagged Foundation Integration"]),
         .library(name: "Tagged Test Support", targets: ["Tagged Test Support"]),
     ],
     dependencies: [
@@ -31,27 +31,18 @@ let package = Package(
             ],
             path: "Sources/Tagged"
         ),
+        
         .target(
-            name: "Tagged Standard Library Integration",
+            name: "Tagged Foundation Integration",
             dependencies: [
                 .target(name: "Tagged"),
-                .product(name: "Carrier Standard Library Integration", package: "swift-carrier"),
             ],
-            path: "Sources/Tagged Standard Library Integration"
-        ),
-        .target(
-            name: "Tagged Foundation Library Integration",
-            dependencies: [
-                .target(name: "Tagged"),
-                .target(name: "Tagged Standard Library Integration"),
-            ],
-            path: "Sources/Tagged Foundation Library Integration"
+            path: "Sources/Tagged Foundation Integration"
         ),
         .target(
             name: "Tagged Test Support",
             dependencies: [
                 .target(name: "Tagged"),
-                .target(name: "Tagged Standard Library Integration"),
                 .product(name: "Carrier Test Support", package: "swift-carrier"),
                 .product(name: "Carrier", package: "swift-carrier"),
             ],
@@ -61,11 +52,9 @@ let package = Package(
             name: "Tagged Tests",
             dependencies: [
                 .target(name: "Tagged"),
-                .target(name: "Tagged Standard Library Integration"),
                 .target(name: "Tagged Test Support"),
                 .product(name: "Carrier", package: "swift-carrier"),
-                .product(name: "Carrier Standard Library Integration", package: "swift-carrier"),
-                .target(name: "Tagged Foundation Library Integration"),
+                .target(name: "Tagged Foundation Integration"),
             ],
             path: "Tests/Tagged Tests"
         ),

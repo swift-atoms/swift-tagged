@@ -17,38 +17,18 @@ extension Tagged where Tag: ~Copyable & ~Escapable, Underlying: ~Copyable & ~Esc
     }
 }
 
-extension Tagged: Copyable where Tag: ~Copyable & ~Escapable, Underlying: Copyable & ~Escapable {}
-extension Tagged: Escapable where Tag: ~Copyable & ~Escapable, Underlying: Escapable & ~Copyable {}
+extension Tagged: Swift.Copyable where Tag: ~Swift.Copyable & ~Escapable, Underlying: Swift.Copyable & ~Escapable {}
 
-extension Tagged: Sendable
-where Tag: ~Copyable & ~Escapable, Underlying: ~Copyable & Sendable & Escapable {}
+extension Tagged: Swift.Escapable where Tag: ~Copyable & ~Swift.Escapable, Underlying: Swift.Escapable & ~Copyable {}
 
-extension Tagged: BitwiseCopyable
-where Tag: ~Copyable & ~Escapable, Underlying: BitwiseCopyable & Escapable {}
+extension Tagged: Swift.Sendable
+where Tag: ~Copyable & ~Escapable, Underlying: ~Copyable & Swift.Sendable & Escapable {}
 
-extension Tagged: Equatable
-where Tag: ~Copyable & ~Escapable, Underlying: Equatable & ~Copyable & Escapable {}
-extension Tagged: Hashable
-where Tag: ~Copyable & ~Escapable, Underlying: Hashable & ~Copyable & Escapable {}
+extension Tagged: Swift.Equatable
+where Tag: ~Copyable & ~Escapable, Underlying: Swift.Equatable & ~Copyable & Escapable {}
 
-extension Tagged: Comparable
-where Tag: ~Copyable & ~Escapable, Underlying: Comparable & ~Copyable & Escapable {
-
-    @inlinable
-    public static func < (lhs: borrowing Tagged, rhs: borrowing Tagged) -> Bool {
-        lhs.underlying < rhs.underlying
-    }
-
-    @inlinable
-    public static func max(_ a: consuming Self, _ b: consuming Self) -> Self {
-        a.underlying >= b.underlying ? a : b
-    }
-
-    @inlinable
-    public static func min(_ a: consuming Self, _ b: consuming Self) -> Self {
-        a.underlying <= b.underlying ? a : b
-    }
-}
+extension Tagged: Swift.Hashable
+where Tag: ~Copyable & ~Escapable, Underlying: Swift.Hashable & ~Copyable & Escapable {}
 
 extension Tagged where Tag: ~Copyable & ~Escapable, Underlying: ~Copyable {
 

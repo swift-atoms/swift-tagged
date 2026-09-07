@@ -1,7 +1,7 @@
-extension Tagged: LosslessStringConvertible
+extension Tagged: Swift.LosslessStringConvertible
 where
     Tag: ~Copyable & ~Escapable,
-    Underlying: LosslessStringConvertible & Escapable
+    Underlying: Swift.LosslessStringConvertible & Escapable
 {
 
     @inlinable

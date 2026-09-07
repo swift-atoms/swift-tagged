@@ -1,6 +1,6 @@
 #if !hasFeature(Embedded)
-    extension Tagged: Codable
-    where Tag: ~Copyable & ~Escapable, Underlying: Codable & Escapable {
+extension Tagged: Swift.Codable
+    where Tag: ~Copyable & ~Escapable, Underlying: Swift.Codable & Escapable {
 
         @inlinable
         public init(from decoder: any Decoder) throws {

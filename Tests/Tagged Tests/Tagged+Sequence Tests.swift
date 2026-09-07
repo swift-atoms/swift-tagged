@@ -1,4 +1,4 @@
-import Tagged_Standard_Library_Integration
+import Tagged
 import Tagged_Test_Support
 import Testing
 
