@@ -18,6 +18,7 @@ let package = Package(
         .library(name: "Tagged Test Support", targets: ["Tagged Test Support"]),
     ],
     dependencies: [
+
         .package(
             url: "https://github.com/swift-atoms/swift-carrier.git",
             branch: "main"
@@ -57,6 +58,15 @@ let package = Package(
                 .target(name: "Tagged Foundation Integration"),
             ],
             path: "Tests/Tagged Tests"
+        ),
+        .testTarget(
+            name: "Consolidated Tagged Carrier Tests",
+            dependencies: [
+
+                .target(name: "Tagged"),
+                .product(name: "Carrier", package: "swift-carrier"),
+            ],
+            path: "Tests/Consolidated swift-tagged-carrier"
         ),
     ],
     swiftLanguageModes: [.v6]
