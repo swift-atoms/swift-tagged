@@ -1,22 +1,22 @@
 public import Carrier
 public import Tagged
 
-extension Array: @retroactive Carrier.`Protocol` {
+extension Swift.Array: @retroactive Carrier.`Protocol` {
 
-    public typealias Underlying = [Element]
+    public typealias Underlying = Swift.Array<Element>
 }
 
-extension ContiguousArray: @retroactive Carrier.`Protocol` {
+extension Swift.ContiguousArray: @retroactive Carrier.`Protocol` {
 
-    public typealias Underlying = ContiguousArray<Element>
+    public typealias Underlying = Swift.ContiguousArray<Element>
 }
 
-extension Dictionary: @retroactive Carrier.`Protocol` {
+extension Swift.Dictionary: @retroactive Carrier.`Protocol` {
 
-    public typealias Underlying = [Key: Value]
+    public typealias Underlying = Swift.Dictionary<Key, Value>
 }
 
-extension Set: @retroactive Carrier.`Protocol` {
+extension Swift.Set: @retroactive Carrier.`Protocol` {
 
-    public typealias Underlying = Set<Element>
+    public typealias Underlying = Swift.Set<Element>
 }
