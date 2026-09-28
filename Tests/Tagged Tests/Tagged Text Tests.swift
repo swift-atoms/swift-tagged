@@ -18,13 +18,13 @@ extension `Tagged text conversion preserves values within the receiving domain`.
 
     @Test
     func `init parses valid string`() {
-        let tagged: Tagged<Tag1, Int>? = Tagged<Tag1, Int>(String("42"))
+        let tagged: Tagged<Tag1, Int>? = Int(String("42")).map { Tagged<Tag1, Int>($0) }
         #expect(tagged?.underlying == 42)
     }
 
     @Test
     func `init returns nil for invalid string`() {
-        let tagged: Tagged<Tag1, Int>? = Tagged<Tag1, Int>(String("not-an-int"))
+        let tagged: Tagged<Tag1, Int>? = Int(String("not-an-int")).map { Tagged<Tag1, Int>($0) }
         #expect(tagged == nil)
     }
 
@@ -35,10 +35,10 @@ extension `Tagged text conversion preserves values within the receiving domain`.
     }
 
     @Test
-    func `Tagged conforms to LosslessStringConvertible when Underlying conforms`() {
-        func _requireLossless<T: LosslessStringConvertible>(_: T.Type) {}
-        _requireLossless(Tagged<Tag1, Int>.self)
-        #expect(Bool(true))
+    func `String-backed init is never failable`() {
+        let tagged = Tagged<Tag1, String>(String("abc"))
+        let required: Tagged<Tag1, String> = tagged
+        #expect(required.underlying == "abc")
     }
 }
 
@@ -48,7 +48,7 @@ extension `Tagged text conversion preserves values within the receiving domain`.
     func `within-domain roundtrip preserves value`() {
         let original: Tagged<Tag1, Int> = 100
         let serialized = original.description
-        let reconstructed: Tagged<Tag1, Int>? = Tagged<Tag1, Int>(serialized)
+        let reconstructed: Tagged<Tag1, Int>? = Int(serialized).map { Tagged<Tag1, Int>($0) }
         #expect(reconstructed == original)
     }
 
@@ -62,8 +62,8 @@ extension `Tagged text conversion preserves values within the receiving domain`.
 
     @Test
     func `same string parses to either Tag — receiver type decides`() {
-        let asTag1: Tagged<Tag1, Int>? = Tagged<Tag1, Int>(String("99"))
-        let asTag2: Tagged<Tag2, Int>? = Tagged<Tag2, Int>(String("99"))
+        let asTag1: Tagged<Tag1, Int>? = Int(String("99")).map { Tagged<Tag1, Int>($0) }
+        let asTag2: Tagged<Tag2, Int>? = Int(String("99")).map { Tagged<Tag2, Int>($0) }
         #expect(asTag1?.underlying == 99 && asTag2?.underlying == 99)
     }
 }
@@ -74,7 +74,7 @@ extension `Tagged text conversion preserves values within the receiving domain`.
     func `Tagged text conversion preserves values across a range`() {
         for raw in [Int.min, -1, 0, 1, 42, Int.max] {
             let original: Tagged<Tag1, Int> = Tagged<Tag1, Int>(_unchecked: raw)
-            let reconstructed: Tagged<Tag1, Int>? = Tagged<Tag1, Int>(original.description)
+            let reconstructed: Tagged<Tag1, Int>? = Int(original.description).map { Tagged<Tag1, Int>($0) }
             #expect(reconstructed == original)
         }
     }
@@ -87,7 +87,7 @@ extension `Tagged text conversion preserves values within the receiving domain`.
         var ok = 0
         (0..<1_000).forEach { i in
             let original: Tagged<Tag1, Int> = Tagged<Tag1, Int>(_unchecked: i)
-            if let reconstructed: Tagged<Tag1, Int> = Tagged<Tag1, Int>(original.description),
+            if let reconstructed: Tagged<Tag1, Int> = Int(original.description).map { Tagged<Tag1, Int>($0) },
                 reconstructed == original
             {
                 ok += 1
