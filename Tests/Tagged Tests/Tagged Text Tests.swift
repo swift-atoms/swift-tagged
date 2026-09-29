@@ -87,7 +87,7 @@ extension `Tagged text conversion preserves values within the receiving domain`.
         var ok = 0
         (0..<1_000).forEach { i in
             let original: Tagged<Tag1, Int> = Tagged<Tag1, Int>(_unchecked: i)
-            if let reconstructed: Tagged<Tag1, Int> = Int(original.description).map { Tagged<Tag1, Int>($0) },
+            if let reconstructed: Tagged<Tag1, Int> = Int(original.description).map({ Tagged<Tag1, Int>($0) }),
                 reconstructed == original
             {
                 ok += 1

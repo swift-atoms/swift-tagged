@@ -1,5 +1,5 @@
 public import Carrier
-public import Tagged
+import Tagged
 
 extension Swift.Array: @retroactive Carrier.`Protocol` {
 
