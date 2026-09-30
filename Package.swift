@@ -81,6 +81,7 @@ for target in package.targets where ![.system, .binary, .plugin].contains(target
         .enableUpcomingFeature("NonisolatedNonsendingByDefault"),
         .enableUpcomingFeature("InferIsolatedConformances"),
         .enableExperimentalFeature("Lifetimes"),
+        .define("SYNCHRONIZATION_AVAILABLE", .when(platforms: [.macOS, .iOS, .tvOS, .watchOS, .visionOS, .linux, .windows])),
         .treatAllWarnings(as: .error),
     ]
 }
