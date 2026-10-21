@@ -1,10 +1,9 @@
 #if SYNCHRONIZATION_AVAILABLE
-public import Synchronization
+    public import Synchronization
 #endif
 
-
 #if SYNCHRONIZATION_AVAILABLE
-extension Tagged: AtomicRepresentable
+    extension Tagged: AtomicRepresentable
     where Underlying: AtomicRepresentable, Tag: ~Copyable & ~Escapable {
 
         public typealias AtomicRepresentation = Underlying.AtomicRepresentation

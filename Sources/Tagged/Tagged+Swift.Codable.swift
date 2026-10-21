@@ -1,5 +1,5 @@
 #if !hasFeature(Embedded)
-extension Tagged: Swift.Codable
+    extension Tagged: Swift.Codable
     where Tag: ~Copyable & ~Escapable, Underlying: Swift.Codable & Escapable {
 
         @inlinable

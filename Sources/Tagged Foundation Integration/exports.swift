@@ -1,2 +1,2 @@
-@_exported public import Tagged
 import Foundation
+@_exported public import Tagged
