@@ -17,15 +17,25 @@ extension Resource {
     typealias Underlying = Self
 }
 
-@Suite
-struct `Tagged values preserve their domains through construction and transformation` {
+enum `Tagged Tests` {}
+
+extension `Tagged Tests` {
+    @Suite
+    struct `Tagged values preserve their domains through construction and transformation` {
+    }
+}
+
+extension `Tagged Tests`.`Tagged values preserve their domains through construction and transformation` {
     @Suite struct `Tagged operations preserve underlying values layout and comparisons` {}
+
     @Suite struct `Tagged mappings and ordering obey identity composition and boundary laws` {}
+
     @Suite struct `Tagged transformations preserve capabilities and compose consistently` {}
+
     @Suite(.serialized) struct `Repeated retagging preserves the original value` {}
 }
 
-extension `Tagged values preserve their domains through construction and transformation`.`Tagged operations preserve underlying values layout and comparisons` {
+extension `Tagged Tests`.`Tagged values preserve their domains through construction and transformation`.`Tagged operations preserve underlying values layout and comparisons` {
 
     @Test
     func `init stores underlying value`() {
@@ -217,7 +227,7 @@ extension `Tagged values preserve their domains through construction and transfo
 
 }
 
-extension `Tagged values preserve their domains through construction and transformation`.`Tagged mappings and ordering obey identity composition and boundary laws` {
+extension `Tagged Tests`.`Tagged values preserve their domains through construction and transformation`.`Tagged mappings and ordering obey identity composition and boundary laws` {
 
     @Test
     func `less than is irreflexive`() {
@@ -333,7 +343,7 @@ extension `Tagged values preserve their domains through construction and transfo
     }
 }
 
-extension `Tagged values preserve their domains through construction and transformation`.`Tagged transformations preserve capabilities and compose consistently` {
+extension `Tagged Tests`.`Tagged values preserve their domains through construction and transformation`.`Tagged transformations preserve capabilities and compose consistently` {
 
     @Test
     func `instance map produces same result as static map`() {
@@ -496,7 +506,7 @@ extension `Tagged values preserve their domains through construction and transfo
 
 }
 
-extension `Tagged values preserve their domains through construction and transformation`.`Repeated retagging preserves the original value` {
+extension `Tagged Tests`.`Tagged values preserve their domains through construction and transformation`.`Repeated retagging preserves the original value` {
 
     @Test
     func `retag round-trip identity holds across batched operations`() {

@@ -17,15 +17,25 @@ private func describeAnyCarrier<C: Carrier.`Protocol`>(_ c: C) -> String {
     String(describing: C.Underlying.self)
 }
 
-@Suite
-struct `Tagged carriers expose their immediate underlying type and phantom domain` {
+enum `Tagged+Carrier Tests` {}
+
+extension `Tagged+Carrier Tests` {
+    @Suite
+    struct `Tagged carriers expose their immediate underlying type and phantom domain` {
+    }
+}
+
+extension `Tagged+Carrier Tests`.`Tagged carriers expose their immediate underlying type and phantom domain` {
     @Suite struct `Tagged carrier associated types preserve the immediate wrapping layer` {}
+
     @Suite struct `Nested tagged carriers retain each wrapping layer` {}
+
     @Suite struct `Generic carrier algorithms distinguish tagged wrapping layers` {}
+
     @Suite(.serialized) struct `Repeated carrier dispatch preserves each tagged value` {}
 }
 
-extension `Tagged carriers expose their immediate underlying type and phantom domain`.`Tagged carrier associated types preserve the immediate wrapping layer` {
+extension `Tagged+Carrier Tests`.`Tagged carriers expose their immediate underlying type and phantom domain`.`Tagged carrier associated types preserve the immediate wrapping layer` {
 
     @Test
     func `Domain associatedtype equals the phantom Tag`() {
@@ -56,7 +66,7 @@ extension `Tagged carriers expose their immediate underlying type and phantom do
     }
 }
 
-extension `Tagged carriers expose their immediate underlying type and phantom domain`.`Nested tagged carriers retain each wrapping layer` {
+extension `Tagged+Carrier Tests`.`Tagged carriers expose their immediate underlying type and phantom domain`.`Nested tagged carriers retain each wrapping layer` {
 
     @Test
     func `triple-nested Tagged reaches innermost via explicit recursion`() {
@@ -76,7 +86,7 @@ extension `Tagged carriers expose their immediate underlying type and phantom do
     }
 }
 
-extension `Tagged carriers expose their immediate underlying type and phantom domain`.`Generic carrier algorithms distinguish tagged wrapping layers` {
+extension `Tagged+Carrier Tests`.`Tagged carriers expose their immediate underlying type and phantom domain`.`Generic carrier algorithms distinguish tagged wrapping layers` {
 
     @Test
     func `single-level Tagged conforms to Carrier with Underlying == Int`() {
@@ -111,7 +121,7 @@ extension `Tagged carriers expose their immediate underlying type and phantom do
     }
 }
 
-extension `Tagged carriers expose their immediate underlying type and phantom domain`.`Repeated carrier dispatch preserves each tagged value` {
+extension `Tagged+Carrier Tests`.`Tagged carriers expose their immediate underlying type and phantom domain`.`Repeated carrier dispatch preserves each tagged value` {
 
     @Test
     func `Form-D dispatch holds across batched carriers`() {

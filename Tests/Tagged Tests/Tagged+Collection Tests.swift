@@ -5,15 +5,25 @@ import Testing
 
 private enum Tag1 {}
 
-@Suite
-struct `Tagged collections forward their underlying collection behavior` {
+enum `Tagged+Collection Tests` {}
+
+extension `Tagged+Collection Tests` {
+    @Suite
+    struct `Tagged collections forward their underlying collection behavior` {
+    }
+}
+
+extension `Tagged+Collection Tests`.`Tagged collections forward their underlying collection behavior` {
     @Suite struct `Tagged collections preserve underlying indices and elements` {}
+
     @Suite struct `Tagged collections preserve empty and single element shapes` {}
+
     @Suite struct `Collection algorithms operate on tagged values` {}
+
     @Suite(.serialized) struct `Repeated tagged subscripting preserves the underlying elements` {}
 }
 
-extension `Tagged collections forward their underlying collection behavior`.`Tagged collections preserve underlying indices and elements` {
+extension `Tagged+Collection Tests`.`Tagged collections forward their underlying collection behavior`.`Tagged collections preserve underlying indices and elements` {
 
     @Test
     func `startIndex and endIndex forward to Underlying`() {
@@ -46,7 +56,7 @@ extension `Tagged collections forward their underlying collection behavior`.`Tag
     }
 }
 
-extension `Tagged collections forward their underlying collection behavior`.`Tagged collections preserve empty and single element shapes` {
+extension `Tagged+Collection Tests`.`Tagged collections forward their underlying collection behavior`.`Tagged collections preserve empty and single element shapes` {
 
     @Test
     func `empty collection is empty`() {
@@ -63,7 +73,7 @@ extension `Tagged collections forward their underlying collection behavior`.`Tag
     }
 }
 
-extension `Tagged collections forward their underlying collection behavior`.`Collection algorithms operate on tagged values` {
+extension `Tagged+Collection Tests`.`Tagged collections forward their underlying collection behavior`.`Collection algorithms operate on tagged values` {
 
     @Test
     func `Collection algorithms work via opt-in conformance`() {
@@ -76,7 +86,7 @@ extension `Tagged collections forward their underlying collection behavior`.`Col
     }
 }
 
-extension `Tagged collections forward their underlying collection behavior`.`Repeated tagged subscripting preserves the underlying elements` {
+extension `Tagged+Collection Tests`.`Tagged collections forward their underlying collection behavior`.`Repeated tagged subscripting preserves the underlying elements` {
 
     @Test
     func `Repeated tagged subscript access preserves every element`() {

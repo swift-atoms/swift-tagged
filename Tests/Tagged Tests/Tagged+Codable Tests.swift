@@ -9,15 +9,25 @@ private struct Account: Codable, Equatable {
     let name: String
 }
 
-@Suite
-struct `Tagged coding preserves the underlying wire representation` {
+enum `Tagged+Codable Tests` {}
+
+extension `Tagged+Codable Tests` {
+    @Suite
+    struct `Tagged coding preserves the underlying wire representation` {
+    }
+}
+
+extension `Tagged+Codable Tests`.`Tagged coding preserves the underlying wire representation` {
     @Suite struct `Tagged coding round trips bare underlying values` {}
+
     @Suite struct `Tagged coding preserves empty escaped and scalar values` {}
+
     @Suite struct `Structured coding preserves tagged fields as underlying values` {}
+
     @Suite(.serialized) struct `Repeated tagged coding round trips preserve values` {}
 }
 
-extension `Tagged coding preserves the underlying wire representation`.`Tagged coding round trips bare underlying values` {
+extension `Tagged+Codable Tests`.`Tagged coding preserves the underlying wire representation`.`Tagged coding round trips bare underlying values` {
 
     @Test
     func `Tagged encoding preserves the bare underlying representation`() throws {
@@ -45,7 +55,7 @@ extension `Tagged coding preserves the underlying wire representation`.`Tagged c
     }
 }
 
-extension `Tagged coding preserves the underlying wire representation`.`Tagged coding preserves empty escaped and scalar values` {
+extension `Tagged+Codable Tests`.`Tagged coding preserves the underlying wire representation`.`Tagged coding preserves empty escaped and scalar values` {
 
     @Test
     func `empty-string underlying still encodes as a bare value`() throws {
@@ -81,7 +91,7 @@ extension `Tagged coding preserves the underlying wire representation`.`Tagged c
     }
 }
 
-extension `Tagged coding preserves the underlying wire representation`.`Structured coding preserves tagged fields as underlying values` {
+extension `Tagged+Codable Tests`.`Tagged coding preserves the underlying wire representation`.`Structured coding preserves tagged fields as underlying values` {
 
     @Test
     func `nested Tagged field in a struct encodes as a bare value`() throws {
@@ -103,7 +113,7 @@ extension `Tagged coding preserves the underlying wire representation`.`Structur
     }
 }
 
-extension `Tagged coding preserves the underlying wire representation`.`Repeated tagged coding round trips preserve values` {
+extension `Tagged+Codable Tests`.`Tagged coding preserves the underlying wire representation`.`Repeated tagged coding round trips preserve values` {
 
     @Test
     func `encode-decode round-trip holds across batched values`() throws {

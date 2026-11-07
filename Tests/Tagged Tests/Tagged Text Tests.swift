@@ -6,15 +6,25 @@ import Testing
 private enum Tag1 {}
 private enum Tag2 {}
 
-@Suite
-struct `Tagged text conversion preserves values within the receiving domain` {
+enum `Tagged Text Tests` {}
+
+extension `Tagged Text Tests` {
+    @Suite
+    struct `Tagged text conversion preserves values within the receiving domain` {
+    }
+}
+
+extension `Tagged Text Tests`.`Tagged text conversion preserves values within the receiving domain` {
     @Suite struct `Tagged parsing and descriptions forward to the underlying type` {}
+
     @Suite struct `Tagged text preserves values while the receiver selects the domain` {}
+
     @Suite struct `Tagged text conversion round trips a range of values` {}
+
     @Suite(.serialized) struct `Repeated tagged text conversion preserves values` {}
 }
 
-extension `Tagged text conversion preserves values within the receiving domain`.`Tagged parsing and descriptions forward to the underlying type` {
+extension `Tagged Text Tests`.`Tagged text conversion preserves values within the receiving domain`.`Tagged parsing and descriptions forward to the underlying type` {
 
     @Test
     func `init parses valid string`() {
@@ -42,7 +52,7 @@ extension `Tagged text conversion preserves values within the receiving domain`.
     }
 }
 
-extension `Tagged text conversion preserves values within the receiving domain`.`Tagged text preserves values while the receiver selects the domain` {
+extension `Tagged Text Tests`.`Tagged text conversion preserves values within the receiving domain`.`Tagged text preserves values while the receiver selects the domain` {
 
     @Test
     func `within-domain roundtrip preserves value`() {
@@ -68,7 +78,7 @@ extension `Tagged text conversion preserves values within the receiving domain`.
     }
 }
 
-extension `Tagged text conversion preserves values within the receiving domain`.`Tagged text conversion round trips a range of values` {
+extension `Tagged Text Tests`.`Tagged text conversion preserves values within the receiving domain`.`Tagged text conversion round trips a range of values` {
 
     @Test
     func `Tagged text conversion preserves values across a range`() {
@@ -80,7 +90,7 @@ extension `Tagged text conversion preserves values within the receiving domain`.
     }
 }
 
-extension `Tagged text conversion preserves values within the receiving domain`.`Repeated tagged text conversion preserves values` {
+extension `Tagged Text Tests`.`Tagged text conversion preserves values within the receiving domain`.`Repeated tagged text conversion preserves values` {
 
     @Test
     func `Repeated tagged text conversion preserves every value`() {

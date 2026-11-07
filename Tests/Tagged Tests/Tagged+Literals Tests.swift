@@ -6,15 +6,25 @@ import Testing
 
 private enum Tag1 {}
 
-@Suite
-struct `Tagged literals construct the underlying values in their domains` {
+enum `Tagged+Literals Tests` {}
+
+extension `Tagged+Literals Tests` {
+    @Suite
+    struct `Tagged literals construct the underlying values in their domains` {
+    }
+}
+
+extension `Tagged+Literals Tests`.`Tagged literals construct the underlying values in their domains` {
     @Suite struct `Tagged literals preserve scalar text and collection values` {}
+
     @Suite struct `Tagged literals preserve boundaries empty strings and interpolation` {}
+
     @Suite struct `Literal construction preserves phantom domains and canonical values` {}
+
     @Suite(.serialized) struct `Repeated tagged literal construction preserves values` {}
 }
 
-extension `Tagged literals construct the underlying values in their domains`.`Tagged literals preserve scalar text and collection values` {
+extension `Tagged+Literals Tests`.`Tagged literals construct the underlying values in their domains`.`Tagged literals preserve scalar text and collection values` {
 
     @Test
     func `integer literal constructs Tagged from Int`() {
@@ -73,7 +83,7 @@ extension `Tagged literals construct the underlying values in their domains`.`Ta
     }
 }
 
-extension `Tagged literals construct the underlying values in their domains`.`Tagged literals preserve boundaries empty strings and interpolation` {
+extension `Tagged+Literals Tests`.`Tagged literals construct the underlying values in their domains`.`Tagged literals preserve boundaries empty strings and interpolation` {
 
     @Test
     func `boundary integer literals work`() {
@@ -99,7 +109,7 @@ extension `Tagged literals construct the underlying values in their domains`.`Ta
     }
 }
 
-extension `Tagged literals construct the underlying values in their domains`.`Literal construction preserves phantom domains and canonical values` {
+extension `Tagged+Literals Tests`.`Tagged literals construct the underlying values in their domains`.`Literal construction preserves phantom domains and canonical values` {
 
     @Test
     func `phantom Tags remain distinct under literal init`() {
@@ -118,7 +128,7 @@ extension `Tagged literals construct the underlying values in their domains`.`Li
     }
 }
 
-extension `Tagged literals construct the underlying values in their domains`.`Repeated tagged literal construction preserves values` {
+extension `Tagged+Literals Tests`.`Tagged literals construct the underlying values in their domains`.`Repeated tagged literal construction preserves values` {
 
     @Test
     func `Repeated tagged literal construction preserves every value`() {

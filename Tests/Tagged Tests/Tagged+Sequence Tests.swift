@@ -6,15 +6,25 @@ import Testing
 
 private enum Tag1 {}
 
-@Suite
-struct `Tagged sequences preserve the underlying iteration behavior` {
+enum `Tagged+Sequence Tests` {}
+
+extension `Tagged+Sequence Tests` {
+    @Suite
+    struct `Tagged sequences preserve the underlying iteration behavior` {
+    }
+}
+
+extension `Tagged+Sequence Tests`.`Tagged sequences preserve the underlying iteration behavior` {
     @Suite struct `Tagged sequences forward iterator construction and conformance` {}
+
     @Suite struct `Tagged iteration preserves empty and populated sequences` {}
+
     @Suite struct `Generic sequence algorithms accept tagged sequences` {}
+
     @Suite(.serialized) struct `Tagged sequence repetitions preserve the underlying traversal` {}
 }
 
-extension `Tagged sequences preserve the underlying iteration behavior`.`Tagged sequences forward iterator construction and conformance` {
+extension `Tagged+Sequence Tests`.`Tagged sequences preserve the underlying iteration behavior`.`Tagged sequences forward iterator construction and conformance` {
 
     @Test
     func `makeIterator forwards to Underlying`() {
@@ -35,7 +45,7 @@ extension `Tagged sequences preserve the underlying iteration behavior`.`Tagged 
     }
 }
 
-extension `Tagged sequences preserve the underlying iteration behavior`.`Tagged iteration preserves empty and populated sequences` {
+extension `Tagged+Sequence Tests`.`Tagged sequences preserve the underlying iteration behavior`.`Tagged iteration preserves empty and populated sequences` {
 
     @Test
     func `empty sequence iterates zero times`() {
@@ -56,7 +66,7 @@ extension `Tagged sequences preserve the underlying iteration behavior`.`Tagged 
     }
 }
 
-extension `Tagged sequences preserve the underlying iteration behavior`.`Generic sequence algorithms accept tagged sequences` {
+extension `Tagged+Sequence Tests`.`Tagged sequences preserve the underlying iteration behavior`.`Generic sequence algorithms accept tagged sequences` {
 
     @Test
     func `generic Sequence algorithm accepts Tagged`() {
@@ -71,7 +81,7 @@ extension `Tagged sequences preserve the underlying iteration behavior`.`Generic
     }
 }
 
-extension `Tagged sequences preserve the underlying iteration behavior`.`Tagged sequence repetitions preserve the underlying traversal` {
+extension `Tagged+Sequence Tests`.`Tagged sequences preserve the underlying iteration behavior`.`Tagged sequence repetitions preserve the underlying traversal` {
 
     @Test
     func `Repeated tagged iteration preserves the underlying elements`() {

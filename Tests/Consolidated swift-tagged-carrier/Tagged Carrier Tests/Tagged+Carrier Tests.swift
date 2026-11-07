@@ -15,15 +15,25 @@ private func describeAnyCarrier<C: Carrier.`Protocol`>(_ c: C) -> String {
     String(describing: C.Underlying.self)
 }
 
-@Suite
-struct `Tagged carrier tests` {
+enum `Tagged+Carrier Tests` {}
+
+extension `Tagged+Carrier Tests` {
+    @Suite
+    struct `Tagged carrier tests` {
+    }
+}
+
+extension `Tagged+Carrier Tests`.`Tagged carrier tests` {
     @Suite struct `Unit tests` {}
+
     @Suite struct `Edge case tests` {}
+
     @Suite struct `Integration tests` {}
+
     @Suite(.serialized) struct `Performance tests` {}
 }
 
-extension `Tagged carrier tests`.`Unit tests` {
+extension `Tagged+Carrier Tests`.`Tagged carrier tests`.`Unit tests` {
 
     @Test
     func `Domain associatedtype equals the phantom Tag`() {
@@ -54,7 +64,7 @@ extension `Tagged carrier tests`.`Unit tests` {
     }
 }
 
-extension `Tagged carrier tests`.`Edge case tests` {
+extension `Tagged+Carrier Tests`.`Tagged carrier tests`.`Edge case tests` {
 
     @Test
     func `triple-nested Tagged reaches innermost via explicit recursion`() {
@@ -74,7 +84,7 @@ extension `Tagged carrier tests`.`Edge case tests` {
     }
 }
 
-extension `Tagged carrier tests`.`Integration tests` {
+extension `Tagged+Carrier Tests`.`Tagged carrier tests`.`Integration tests` {
 
     @Test
     func `test support supplies collection self-carriers`() {
@@ -122,7 +132,7 @@ extension `Tagged carrier tests`.`Integration tests` {
     }
 }
 
-extension `Tagged carrier tests`.`Performance tests` {
+extension `Tagged+Carrier Tests`.`Tagged carrier tests`.`Performance tests` {
 
     @Test
     func `Form-D dispatch holds across batched carriers`() {

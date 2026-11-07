@@ -10,15 +10,25 @@ private struct DomainKey: Identifiable, Hashable, Equatable, Sendable {
     let id: UInt64
 }
 
-@Suite
-struct `Tagged identity follows the underlying identifier` {
+enum `Tagged+Identifiable Tests` {}
+
+extension `Tagged+Identifiable Tests` {
+    @Suite
+    struct `Tagged identity follows the underlying identifier` {
+    }
+}
+
+extension `Tagged+Identifiable Tests`.`Tagged identity follows the underlying identifier` {
     @Suite struct `Tagged identifiers preserve the underlying value and identifier type` {}
+
     @Suite struct `Different phantom tags can expose the same underlying identity` {}
+
     @Suite struct `Generic identity algorithms observe tagged underlying identifiers` {}
+
     @Suite(.serialized) struct `Repeated tagged identifier access preserves identity` {}
 }
 
-extension `Tagged identity follows the underlying identifier`.`Tagged identifiers preserve the underlying value and identifier type` {
+extension `Tagged+Identifiable Tests`.`Tagged identity follows the underlying identifier`.`Tagged identifiers preserve the underlying value and identifier type` {
 
     @Test
     func `id forwards to Underlying id`() {
@@ -42,7 +52,7 @@ extension `Tagged identity follows the underlying identifier`.`Tagged identifier
     }
 }
 
-extension `Tagged identity follows the underlying identifier`.`Different phantom tags can expose the same underlying identity` {
+extension `Tagged+Identifiable Tests`.`Tagged identity follows the underlying identifier`.`Different phantom tags can expose the same underlying identity` {
 
     @Test
     func `phantom-Tag-distinct values with same Underlying id observe identity-inversion`() {
@@ -54,7 +64,7 @@ extension `Tagged identity follows the underlying identifier`.`Different phantom
     }
 }
 
-extension `Tagged identity follows the underlying identifier`.`Generic identity algorithms observe tagged underlying identifiers` {
+extension `Tagged+Identifiable Tests`.`Tagged identity follows the underlying identifier`.`Generic identity algorithms observe tagged underlying identifiers` {
 
     @Test
     func `generic Identifiable algorithm sees the underlying id`() {
@@ -67,7 +77,7 @@ extension `Tagged identity follows the underlying identifier`.`Generic identity 
     }
 }
 
-extension `Tagged identity follows the underlying identifier`.`Repeated tagged identifier access preserves identity` {
+extension `Tagged+Identifiable Tests`.`Tagged identity follows the underlying identifier`.`Repeated tagged identifier access preserves identity` {
 
     @Test
     func `Repeated tagged identifier access preserves the underlying identifier`() {
