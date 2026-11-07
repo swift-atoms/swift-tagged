@@ -20,7 +20,6 @@ private func requirePacketDomain<Value>(_: Tagged<Packet, Value>) {}
 
 @Suite
 struct `Validated Byte Tagged Tests` {
-
     @Test func `forwards the underlying byte`() {
         let tagged = Tagged<Packet, UInt8>(_unchecked: UInt8(0x42))
         #expect(tagged.underlying == UInt8(0x42))
@@ -44,7 +43,7 @@ struct `Validated Byte Tagged Tests` {
     }
 
     @Test func `round-trips every byte through Tagged`() {
-        for raw in UInt8.min...UInt8.max {
+        (UInt8.min...UInt8.max).forEach { raw in
             let tagged = Tagged<Packet, UInt8>(_unchecked: UInt8(raw))
             #expect(tagged.underlying == raw)
         }
